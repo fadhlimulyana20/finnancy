@@ -31,6 +31,10 @@ class CreateExpensesPlansTable extends Migration
      */
     public function down()
     {
+        Schema::table('expenses_plans', function (Blueprint $table) {
+            $table->dropForeign('expenses_plans_user_id_foreign');
+            $table->dropColumn('user_id');
+        });
         Schema::dropIfExists('expenses_plans');
     }
 }

@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->boolean('is_income');
             $table->string('description', 100);
-            $table->foreignId('category_id')->references('id')->on('categories');
+            $table->string('category', 100);
             $table->bigInteger('amount');
             $table->date('date');
             $table->timestamps();
@@ -32,6 +32,10 @@ class CreateTransactionsTable extends Migration
      */
     public function down()
     {
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->dropForeign('transactions_user_id_foreign');
+            $table->dropColumn('user_id');
+        });
         Schema::dropIfExists('transactions');
     }
 }
