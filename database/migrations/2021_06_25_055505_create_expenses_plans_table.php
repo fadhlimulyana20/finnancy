@@ -15,7 +15,7 @@ class CreateExpensesPlansTable extends Migration
     {
         Schema::create('expenses_plans', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('description', 100);
             $table->string('category', 100);
             $table->bigInteger('amount');
