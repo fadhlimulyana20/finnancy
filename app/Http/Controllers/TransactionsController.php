@@ -29,6 +29,7 @@ class TransactionsController extends Controller
      */
     public function create()
     {
+        return view();
     }
 
     /**
@@ -39,7 +40,24 @@ class TransactionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        $request->validate([
+            'user_id' => 'required',
+            'is_income' => 'required',
+            'amount' => 'required',
+            'date' => 'required',
+            'description' => 'required'
+        ]);
+
+        $transaction = new Transaction;
+        $transaction->user_id = $user->id;
+        $transaction->is_income = $request->is_income == '1' ? True : False;
+        $transaction->description = $request->description;
+        $transaction->amount = $request->amount;
+        $transaction->date = $request->date;
+        $transaction->save();
+
+        return $transaction;
     }
 
     /**
@@ -50,7 +68,9 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        //
+        $transaction = Transaction::find($id);
+
+        return $transaction;
     }
 
     /**
@@ -73,7 +93,22 @@ class TransactionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'user_id' => 'required',
+            'is_income' => 'required',
+            'amount' => 'required',
+            'date' => 'required',
+            'description' => 'required'
+        ]);
+
+        $transaction = Transaction::find($id);
+        $transaction->is_income = $request->is_income == '1' ? True : False;
+        $transaction->description = $request->description;
+        $transaction->amount = $request->amount;
+        $transaction->date = $request->date;
+        $transaction->save();
+
+        return $transaction;
     }
 
     /**
@@ -84,6 +119,14 @@ class TransactionsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = Auth::user();
+        $transaction = Transaction::find($id);
+
+        if ($transaction && $transaction->user_id == $user->id) {
+            Transaction::destroy($id);
+            return;
+        }
+
+        return;
     }
 }
