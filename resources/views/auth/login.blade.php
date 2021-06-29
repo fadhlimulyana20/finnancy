@@ -1,10 +1,16 @@
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
+            {{--<a href="/">
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+            </a>--}}
         </x-slot>
+
+    <div class="font-sans text-gray-900 antialiased">
+        <div class="min-h-0 flex flex-col  px-6 py-16 items-center bg-green-200 sm:rounded-lg">
+    
+
+    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
 
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -14,6 +20,11 @@
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
+
+            <!-- Title -->
+            <div>
+                <x-label class="mb-10 mt-4  text-3xl font-bold text-center justify-center" for="name" :value="__('Login')" />
+            </div>
 
             <!-- Email Address -->
             <div>
@@ -40,17 +51,22 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-center mt-4">
                 @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
+            </div>
 
+            <div class="flex items-center justify-center mt-4">
                 <x-button class="ml-3">
                     {{ __('Log in') }}
                 </x-button>
             </div>
         </form>
+        </div>
+        </div>
+    </div>    
     </x-auth-card>
 </x-guest-layout>
